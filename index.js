@@ -2,6 +2,7 @@
 const express = require('express');
 const uuid = require('uuid');
 const path = require('path');
+const exphbs = require('express-handlebars');
 //const logger = require('./middleware/logger');
 
 
@@ -18,6 +19,10 @@ const logger = (req, res, next) => {
 
 // Init middleware
 //app.use(logger);
+
+// Handlebars Middleware
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // Body Parser Middleware
 app.use(express.json());
