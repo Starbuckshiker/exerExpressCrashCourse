@@ -1,18 +1,27 @@
+
 const express = require('express');
+const uuid = require('uuid');
 const path = require('path');
-const members = require('./Members');
+//const logger = require('./middleware/logger');
+
 
 const app = express();
 
 const logger = (req, res, next) => {
-    console.log('Let it Snow');
+    console.log(
+        `${req.protocol}://${req.get('host')}${
+            req.orginalUrl
+        }: ${moment().format()}`
+    );
     next();
-}
-// Init middleware
-app.use(logger);
+};
 
-// Gets All Members
-app.get('/api/members', (req, res) =>  res.json(members));
+// Init middleware
+//app.use(logger);
+
+// Body Parser Middleware
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 //first part of course
 // app.get('/', (req, res) => {
@@ -22,6 +31,9 @@ app.get('/api/members', (req, res) =>  res.json(members));
 
 // Set a static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Members APi Routes
+app.use('/api/members', require('./routes/api/members'));
 
 const PORT = process.env.PORT || 5000;
 
