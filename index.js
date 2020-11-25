@@ -4,6 +4,7 @@ const uuid = require('uuid');
 const path = require('path');
 const exphbs = require('express-handlebars');
 //const logger = require('./middleware/logger');
+const members = require('./Members');
 
 
 const app = express();
@@ -28,14 +29,22 @@ app.set('view engine', 'handlebars');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
+//Homepage route
+app.get('/', (req, res) => 
+res.render('index', {
+    title: 'Member App',
+    members
+})
+);
+
+// Set a static folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 //first part of course
 // app.get('/', (req, res) => {
 //     //res.send('<h1>Hello Chris!!</h1>');  
 //     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
-
-// Set a static folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Members APi Routes
 app.use('/api/members', require('./routes/api/members'));
