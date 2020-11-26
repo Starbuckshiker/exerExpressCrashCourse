@@ -1,28 +1,28 @@
 
 const express = require('express');
-const uuid = require('uuid');
+//const uuid = require('uuid');
 const path = require('path');
 const exphbs = require('express-handlebars');
-//const logger = require('./middleware/logger');
+const logger = require('./middleware/logger');
 const members = require('./Members');
 
 
 const app = express();
 
-const logger = (req, res, next) => {
-    console.log(
-        `${req.protocol}://${req.get('host')}${
-            req.orginalUrl
-        }: ${moment().format()}`
-    );
-    next();
-};
+// const logger = (req, res, next) => {
+//     console.log(
+//         `${req.protocol}://${req.get('host')}${
+//             req.orginalUrl
+//         }: ${moment().format()}`
+//     );
+//     next();
+// };
 
 // Init middleware
 //app.use(logger);
 
 // Handlebars Middleware
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 // Body Parser Middleware
